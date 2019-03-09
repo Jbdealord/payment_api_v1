@@ -1,0 +1,72 @@
+version: "3"
+
+services:
+
+  postgres:
+    image: postgres:11.2
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - LC_ALL=C.UTF-8
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_USER=docker
+
+  redis:
+    image: bitnami/redis:latest
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+
+  rabbitmq:
+    image: bitnami/rabbitmq:latest
+
+  payment.api.v1: &payment_api_v1
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./payment_api_v1:/app
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - POSTGRES_DB_NAME=payment_api_v1
+      - POSTGRES_PORT_5432_TCP_ADDR=postgres
+      - POSTGRES_PORT_5432_TCP_PORT=5432
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - PGPASSWORD=docker
+    depends_on:
+      - postgres
+      - payment.api.v1.migrate
+      - redis
+      - rabbitmq
+      - payment.api.v1.celery-worker
+
+  payment.api.v1.celery-worker:
+    <<: *payment_api_v1
+    ports: []
+    command: celery -A payment_api_v1 worker -l info
+    depends_on:
+      - postgres
+      - payment.api.v1.migrate
+      - redis
+      - rabbitmq
+
+  payment.api.v1.autotests:
+    <<: *payment_api_v1
+    ports: []
+    command: python manage.py test  --noinput --settings=payment_api_v1.settings_test
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+
+  payment.api.v1.migrate:
+    <<: *payment_api_v1
+    ports: []
+    command: python manage.py migrate --noinput
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
