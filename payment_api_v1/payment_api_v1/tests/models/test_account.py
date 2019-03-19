@@ -1,17 +1,23 @@
-from django.db import models
 from django.test import TestCase
 
-from payment_api_v1.models import Account
+from djmoney.money import Money, Currency
+
+from payment_api_v1.models import Account, Balance
 
 
-class AccountModelStructureTestCase(TestCase):
+class AccountTestCase(TestCase):
 
-    def test_account_has_email(self):
-        email = Account._meta.get_field('email')
-        self.assertIsInstance(email, models.EmailField)
+    def setUp(self):
+        self.account = Account.objects.create(email='test@example.com')
 
-    def test_email_field_arguments(self):
-        email = Account._meta.get_field('email')
+    def test_create_balance_currency_exists(self):
+        balance = self.account.create_balance('RUB')
 
-        self.assertFalse(email.null)
-        self.assertFalse(email.blank)
+        self.assertIsInstance(balance, Balance)
+        self.assertIsInstance(balance.account, Account)
+        self.assertIsInstance(balance.money, Money)
+
+        self.assertEqual(balance.account.id, self.account.id)
+        self.assertEqual(balance.money, Money(0, 'RUB'))
+        self.assertEqual(balance.money.amount, 0)
+        self.assertEqual(balance.money.currency.code, 'RUB')
