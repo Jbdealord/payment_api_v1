@@ -17,3 +17,5 @@ class MigrationDisabler:
 
 
 MIGRATION_MODULES = MigrationDisabler()
+
+CELERY_ALWAYS_EAGER = True

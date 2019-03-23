@@ -55,7 +55,7 @@ services:
   payment.api.v1.autotests:
     <<: *payment_api_v1
     ports: []
-    command: python manage.py test  --noinput --settings=payment_api_v1.settings_test
+    command: python manage.py test  --noinput --settings=payment_api_v1.settings_test -v 2
     depends_on:
       - postgres
       - redis
