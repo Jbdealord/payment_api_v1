@@ -8,7 +8,7 @@ from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
-from payment_api_v1.models import Account, Payment, Balance
+from payment_api_v1.models import Account, Payment
 from payment_api_v1.tasks import process_payment
 
 
