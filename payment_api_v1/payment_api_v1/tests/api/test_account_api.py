@@ -1,5 +1,7 @@
 from urllib.parse import urljoin
 
+from djmoney.money import Money
+
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
