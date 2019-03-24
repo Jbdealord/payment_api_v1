@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'djmoney',
+    'rest_framework',
 
     'payment_api_v1'
 ]
