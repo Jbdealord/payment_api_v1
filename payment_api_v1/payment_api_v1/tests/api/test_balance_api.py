@@ -29,7 +29,7 @@ class BalanceAPITestCase(APITestCase):
         self.assertDictEqual(
             response.data,
             {
-                'id': 2,
+                'id': self.balance_php.pk,
                 'amount': Decimal(1000.00),
                 'currency': 'PHP'
             }
