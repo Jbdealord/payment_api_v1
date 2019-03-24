@@ -19,6 +19,10 @@ class PaymentAPITestCase(APITestCase):
         self.account2 = Account.objects.create(email='second@example.com')
         self.account3 = Account.objects.create(email='third@example.com')
 
+        self.account1_balance_usd = self.account1.create_balance('USD')
+        self.account1_balance_usd.money = Money(200, 'USD')
+        self.account1_balance_usd.save()
+
         self.account2_balance_usd = self.account2.create_balance('USD')
         self.account2_balance_usd.money = Money(500, 'USD')
         self.account2_balance_usd.save()
@@ -149,4 +153,35 @@ class PaymentAPITestCase(APITestCase):
                 'currency': 'PHP',
                 'status': 'not_enough_money'
             }
+        )
+
+    def test_create_payment(self):
+        with mock.patch('payment_api_v1.tasks.process_payment.delay'):
+            response = self.client.post(
+                reverse('payment-list'),
+                {
+                    'balance_from': self.account1_balance_usd.pk,
+                    'balance_to': self.account2_balance_usd.pk,
+                    'amount': 100
+                },
+                format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        payment = Payment.objects.latest('datetime')
+        self.assertEqual(
+            payment.balance_from.pk,
+            self.account1_balance_usd.pk
+        )
+        self.assertEqual(
+            payment.balance_to.pk,
+            self.account2_balance_usd.pk
+        )
+        self.assertEqual(
+            payment.money,
+            Money(100, 'USD')
+        )
+        self.assertEqual(
+            payment.status,
+            0
         )

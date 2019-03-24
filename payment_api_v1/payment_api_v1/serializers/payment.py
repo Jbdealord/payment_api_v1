@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from djmoney.money import Money
+
 from payment_api_v1.models import Payment
 
 
@@ -40,3 +42,23 @@ class PaymentListSerializer(serializers.HyperlinkedModelSerializer):
         extra_kwargs = {
             'url': {'view_name': 'payment-detail'}
         }
+
+
+class PaymentCreateSerializer(serializers.ModelSerializer):
+    amount = serializers.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        write_only=True
+    )
+
+    class Meta:
+        model = Payment
+        fields = ('balance_from', 'balance_to', 'amount', )
+
+    def create(self, validated_data):
+        amount = validated_data.pop('amount')
+        currency = validated_data['balance_from'].money.currency
+
+        validated_data['money'] = Money(amount, currency.code)
+
+        return super().create(validated_data)
