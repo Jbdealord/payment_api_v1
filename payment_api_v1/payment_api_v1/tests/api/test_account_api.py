@@ -1,3 +1,4 @@
+from decimal import Decimal
 from urllib.parse import urljoin
 
 from djmoney.money import Money
@@ -6,7 +7,7 @@ from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
-from payment_api_v1.models import Account
+from payment_api_v1.models import Account, Balance
 
 
 class AccountAPITestCase(APITestCase):
@@ -58,12 +59,12 @@ class AccountAPITestCase(APITestCase):
                 'balances': [
                     {
                         'id': 1,
-                        'amount': '500.00 USD',
+                        'amount': Decimal(500.00),
                         'currency': 'USD'
                     },
                     {
                         'id': 2,
-                        'amount': '1000.00 PHP',
+                        'amount': Decimal(1000.00),
                         'currency': 'PHP'
                     }
                 ]

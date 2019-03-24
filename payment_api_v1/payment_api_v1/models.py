@@ -13,7 +13,7 @@ class Balance(models.Model):
         max_digits=8,  # 999,999,99
         decimal_places=2
     )
-    account = models.ForeignKey('Account', null=False, blank=False, on_delete=models.CASCADE)
+    account = models.ForeignKey('Account', null=False, blank=False, on_delete=models.CASCADE, related_name='balances')
 
 
 class Account(models.Model):
@@ -28,6 +28,12 @@ class Account(models.Model):
         :return: newly created balance
         """
         return Balance.objects.create(account=self, money=Money(0, currency_code))
+
+    def __str__(self):
+        return f'Account: {self.email}'
+
+    class Meta:
+        ordering = ('email', )
 
 
 class Payment(models.Model):
