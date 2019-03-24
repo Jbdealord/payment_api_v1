@@ -185,3 +185,16 @@ class PaymentAPITestCase(APITestCase):
             payment.status,
             0
         )
+
+    def test_create_payment_currencies_dont_match(self):
+        with mock.patch('payment_api_v1.tasks.process_payment.delay'):
+            response = self.client.post(
+                reverse('payment-list'),
+                {
+                    'balance_from': self.account1_balance_usd.pk,
+                    'balance_to': self.account2_balance_php.pk,
+                    'amount': 100
+                },
+                format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

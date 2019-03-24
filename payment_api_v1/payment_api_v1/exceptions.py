@@ -6,3 +6,8 @@ class BasePaymentException(Exception):
 class NotEnoughMoneyException(BasePaymentException):
 
     pass
+
+
+class CurrenciesDontMatch(BasePaymentException):
+
+    pass

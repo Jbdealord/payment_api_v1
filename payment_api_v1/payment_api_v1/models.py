@@ -51,7 +51,8 @@ class Payment(models.Model):
         (0, 'pending', _('pending')),
         (1, 'success', _('success')),
         (2, 'not_enough_money', _('not_enough_money')),
-        (3, 'system_failure', _('system_failure'))
+        (3, 'system_failure', _('system_failure')),
+        (4, 'currencies_dont_match', _('currencies_dont_match'))
     )
 
     balance_from = models.ForeignKey(

@@ -56,6 +56,9 @@ class PaymentCreateSerializer(serializers.ModelSerializer):
         fields = ('balance_from', 'balance_to', 'amount', )
 
     def create(self, validated_data):
+        if validated_data['balance_from'].money.currency != validated_data['balance_to'].money.currency:
+            raise serializers.ValidationError('Only transactions with same currency are allowed')
+
         amount = validated_data.pop('amount')
         currency = validated_data['balance_from'].money.currency
 
