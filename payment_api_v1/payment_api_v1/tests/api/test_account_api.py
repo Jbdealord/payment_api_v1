@@ -42,9 +42,9 @@ class AccountAPITestCase(APITestCase):
                 {
                     'url': urljoin(
                         'http://testserver/',
-                        reverse('account-detail', kwargs={'pk': page.pk})
+                        reverse('account-detail', kwargs={'pk': account.pk})
                     )
-                } for page in self.accounts
+                } for account in self.accounts
             ]
         )
 
