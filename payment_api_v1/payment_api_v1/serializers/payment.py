@@ -45,15 +45,16 @@ class PaymentListSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PaymentCreateSerializer(serializers.ModelSerializer):
-    amount = serializers.DecimalField(
-        max_digits=8,
-        decimal_places=2,
-        write_only=True
-    )
+    url = serializers.HyperlinkedIdentityField('payment-detail', read_only=True)
+    amount = serializers.DecimalField(max_digits=8, decimal_places=2, write_only=True)
 
     class Meta:
         model = Payment
-        fields = ('balance_from', 'balance_to', 'amount', )
+        fields = ('balance_from', 'balance_to', 'amount', 'url', )
+        extra_kwargs = {
+            'balance_from': {'write_only': True},
+            'balance_to': {'write_only': True},
+        }
 
     def create(self, validated_data):
         if validated_data['balance_from'].money.currency != validated_data['balance_to'].money.currency:

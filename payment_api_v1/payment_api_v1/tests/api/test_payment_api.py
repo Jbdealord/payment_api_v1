@@ -169,6 +169,17 @@ class PaymentAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         payment = Payment.objects.latest('datetime')
+
+        self.assertDictEqual(
+            response.data,
+            {
+                'url': urljoin(
+                    'http://testserver/',
+                    reverse('payment-detail', kwargs={'pk': payment.pk})
+                )
+            }
+        )
+
         self.assertEqual(
             payment.balance_from.pk,
             self.account1_balance_usd.pk
