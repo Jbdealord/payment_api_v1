@@ -76,7 +76,8 @@ class PaymentAPITestCase(APITestCase):
                         'http://testserver/',
                         reverse('payment-detail', kwargs={'pk': payment.pk})
                     )
-                } for payment in self.payments
+                } for payment in reversed(self.payments)
+                # reversed() bc default ordering is by `datetime` (creation time)
             ]
         )
 
@@ -96,7 +97,7 @@ class PaymentAPITestCase(APITestCase):
                     'http://testserver/',
                     reverse('balance-detail', kwargs={'pk': self.payment_pending.balance_to.pk})
                 ),
-                'datetime': self.payment_pending.datetime,
+                'datetime': self.payment_pending.datetime.strftime('%s'),
                 'amount': Decimal(700),
                 'currency': 'PHP',
                 'status': 'pending'
@@ -119,7 +120,7 @@ class PaymentAPITestCase(APITestCase):
                     'http://testserver/',
                     reverse('balance-detail', kwargs={'pk': self.payment_success.balance_to.pk})
                 ),
-                'datetime': self.payment_success.datetime,
+                'datetime': self.payment_success.datetime.strftime('%s'),
                 'amount': Decimal(700),
                 'currency': 'PHP',
                 'status': 'success'
@@ -143,7 +144,7 @@ class PaymentAPITestCase(APITestCase):
                     'http://testserver/',
                     reverse('balance-detail', kwargs={'pk': self.payment_not_enough_money.balance_to.pk})
                 ),
-                'datetime': self.payment_not_enough_money.datetime,
+                'datetime': self.payment_not_enough_money.datetime.strftime('%s'),
                 'amount': Decimal(700),
                 'currency': 'PHP',
                 'status': 'not_enough_money'

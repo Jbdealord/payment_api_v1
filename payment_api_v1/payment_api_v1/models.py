@@ -15,6 +15,15 @@ class Balance(models.Model):
     )
     account = models.ForeignKey('Account', null=False, blank=False, on_delete=models.CASCADE, related_name='balances')
 
+    def __str__(self):
+        return f'Balance: ' \
+            f'of {self.account} ' \
+            f'amount {self.money.amount} ' \
+            f'currency {self.money.currency}'
+
+    class Meta:
+        ordering = ('id', )
+
 
 class Account(models.Model):
 
@@ -68,3 +77,14 @@ class Payment(models.Model):
         max_digits=8,  # 999,999,99
         decimal_places=2
     )
+
+    def __str__(self):
+        return f'' \
+            f'Payment [{self.STATUS[self.status]}]: ' \
+            f'from {self.balance_from} ' \
+            f'to {self.balance_to} ' \
+            f'amount {self.money.amount} ' \
+            f'currency {self.money.currency}'
+
+    class Meta:
+        ordering = ('-datetime', )

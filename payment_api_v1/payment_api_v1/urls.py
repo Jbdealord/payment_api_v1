@@ -3,12 +3,13 @@ from django.urls import path, include
 
 from rest_framework.routers import DefaultRouter
 
-from payment_api_v1.views import AccountViewSet, BalanceViewSet
+from payment_api_v1.views import AccountViewSet, BalanceViewSet, PaymentViewSet
 
 
 router = DefaultRouter()
 router.register(r'account', AccountViewSet)
 router.register(r'balance', BalanceViewSet)
+router.register(r'payment', PaymentViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
