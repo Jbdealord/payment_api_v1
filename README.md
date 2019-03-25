@@ -54,6 +54,25 @@ As you can see - all the services follow semantic naming. So it's pretty easy to
 
 ### Getting Started
 
+To start working with the system you might need the following things:
+
+##### 1. Run the application service
+
+```bash
+docker-compose up payment.api.v1.autotests
+```
+
+##### 2. Add sample data
+
+You could do either from admin UI (accessing http://0.0.0.0:8000/admin) or using Django shell
+(which is described below in [Django Shell](#django-shell--sample-data) section).
+
+##### 3. Query API
+
+Explore API: http://0.0.0.0/api
+
+Explore API Documentation: http://0.0.0.0/docs
+
 ### Development
 
 There're some commonly used flows during development. Let's see some examples.
@@ -176,3 +195,5 @@ ready-to-use fixtures to run Celery Worker in a thread and so on.
 on both ORM side and REST API side.
 4. Add currency exchange capabilities, so transactions between balances with different currency will become possible.
 5. Add capability to add custom currencies (e.g. new cryptocurrencies).
+6. Avoid payments between same balance of same account. While payments between different balances of same
+account sounds reasonable.

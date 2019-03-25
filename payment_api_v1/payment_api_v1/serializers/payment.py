@@ -57,6 +57,7 @@ class PaymentCreateSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
+        # TODO (dmitry): avoid transactions between same balances of same account
         if validated_data['balance_from'].money.currency != validated_data['balance_to'].money.currency:
             raise serializers.ValidationError('Only transactions with same currency are allowed')
 
