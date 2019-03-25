@@ -157,7 +157,13 @@ payment = Payment.objects.create(balance_from=account2_balance_php, balance_to=a
 Contribution
 ------------
 
+As a general rule of thumb:
 
+1. Use git-flow and open pull request to merge any change in `staging`, `release-*` or `master` branch
+2. Write tests first and ensure they pass before moving forward to QA stage
+3. Use docstrings and type hinting to keep information about your code organized
+
+All other pieces will placed in `CONTRIBUTING.md` file.
 
 Deployment and Scalability
 --------------------------
@@ -197,3 +203,8 @@ on both ORM side and REST API side.
 5. Add capability to add custom currencies (e.g. new cryptocurrencies).
 6. Avoid payments between same balance of same account. While payments between different balances of same
 account sounds reasonable.
+
+Documentation and Workflows:
+
+1. Create `CONTRIBUTING.md` file in the root of this repository to store rules directly related
+to contribution - Code of Conduct, Pull Requesting, etc ...
