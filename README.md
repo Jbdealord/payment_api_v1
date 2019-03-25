@@ -304,6 +304,7 @@ Documentation and Workflows:
 
 1. Create `CONTRIBUTING.md` file in the root of this repository to store rules directly related
 to contribution - Code of Conduct, Pull Requesting, etc ...
+2. Draw UML diagrams using special tool (e.g. Draw.IO) and replace drafts with new shiny diagrams.
 
 Whole architecture of Microservice farm:
 
