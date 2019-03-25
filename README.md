@@ -21,6 +21,53 @@ bounded context. Good news about Microservices is that we could just start with 
 and then refactor to smaller ones (as time goes on, business requirements are changing and we're getting more 
 experience in this area).
 
+### Entities
+
+Building of the system was started with drawing of ER diagram and then converting it into Class Diagram. As the result the
+following entities was determined:
+
+1. Account - to represent a human, an owner of some money accounts
+2. Balance - synonym for "money account", it has information about money (amount and curency)
+3. Currency - helper entity to represent currency
+4. Payment - which represents money send transaction
+
+Account could own multiple Balance instances
+
+Balance could be connected with multiple Currency instances
+
+Payment has one-to-one relation to Balance (2 relations)
+
+Let's plan fields for those entities.
+
+Account:
+ - id
+ - email
+ 
+Balance:
+ - id
+ - amount
+ - currency (-> Currency 1-*)
+ - account (-> Account *-1)
+ 
+Payment:
+ - id
+ - datetime
+ - amount
+ - currency (-> Currency 1-*)
+ - balance_from (-> Balance 1-1)
+ - balance_to (-> Balance 1-1)
+ - status
+ 
+Currency:
+ - id
+ - code
+ - title
+
+You could find paper drafts of those diagrams here - 
+[ER](https://drive.google.com/file/d/1bFoFXAPhwxR6RWDUQuGEhmTQ8yJ0AGWo/view?usp=sharing) 
+and [Class Diagram](https://drive.google.com/file/d/1HS8A32RbZcj9MvmTzOrhVYNGVx3gnvOz/view?usp=sharing).
+
+### Stack
 
 
 
