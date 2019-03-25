@@ -168,7 +168,15 @@ All other pieces will placed in `CONTRIBUTING.md` file.
 Deployment and Scalability
 --------------------------
 
+Since this system implements Microservice architecture pattern, we have some requirements for deployment. Such as:
 
+1. Ability to deploy each microservice independently.
+2. Ability to scale at each microservice level.
+3. Failure to one microservice will not affect service of other kinds.
+
+`Docker` usage let us cover all of those requirements with minimal effort. Docker Compose file contains a list
+of services and we can scale each one independently (by increasing number of running containers). But still, for 
+production usage - we might solve a list of `DevOps` tasks (declared below).
 
 TODO
 ----
@@ -204,8 +212,15 @@ on both ORM side and REST API side.
 6. Avoid payments between same balance of same account. While payments between different balances of same
 account sounds reasonable.
 7. Add (and maintain) data migration with sample data for easier testing.
+8. Think about caching - what we're able to cache and how to invalidate that data.
 
 Documentation and Workflows:
 
 1. Create `CONTRIBUTING.md` file in the root of this repository to store rules directly related
 to contribution - Code of Conduct, Pull Requesting, etc ...
+
+Whole architecture of Microservice farm:
+
+1. We might want to add 2 extra components - Generic API Gateway and Auth Service (which will perform active
+communication). Generic API Gateway will forward requests to other microservices and will talk
+with different clients - mobile, web, etc ...
