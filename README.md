@@ -69,7 +69,20 @@ and [Class Diagram](https://drive.google.com/file/d/1HS8A32RbZcj9MvmTzOrhVYNGVx3
 
 ### Stack
 
+1. Docker + Docker-Compose to organize environment
+2. PostgreSQL 11.2 as the main data storage
+3. Django 2.1.7 as the web framework
+4. Modern Python 3.7.2 to implement logic
+5. Django REST Framework to implement RESTful API
+6. Celery to process background tasks
 
+### Useful pointers for places in the code
+
+1. [place for celery tasks `payment_api_v1/tasks.py`](../blob/master/payment_api_v1/payment_api_v1/tasks.py)
+2. [DRF ViewSets to implement API `payment_api_v1/views.py`](../blob/master/payment_api_v1/payment_api_v1/views.py)
+3. [DRF serlializers `payment_api_v1/serializers/`](../blob/master/payment_api_v1/payment_api_v1/serializers/)
+4. [Django signal to process payment `payment_api_v1/signals.py`](../blob/master/payment_api_v1/payment_api_v1/signals.py)
+5. [API test cases `payment_api_v1/tests/api/`](../blob/master/payment_api_v1/payment_api_v1/tests/api/)
 
 How to Run and Use
 ------------------
