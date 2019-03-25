@@ -203,6 +203,7 @@ on both ORM side and REST API side.
 5. Add capability to add custom currencies (e.g. new cryptocurrencies).
 6. Avoid payments between same balance of same account. While payments between different balances of same
 account sounds reasonable.
+7. Add (and maintain) data migration with sample data for easier testing.
 
 Documentation and Workflows:
 
