@@ -78,11 +78,11 @@ and [Class Diagram](https://drive.google.com/file/d/1HS8A32RbZcj9MvmTzOrhVYNGVx3
 
 ### Useful pointers for places in the code
 
-1. [place for celery tasks `payment_api_v1/tasks.py`](../blob/master/payment_api_v1/payment_api_v1/tasks.py)
-2. [DRF ViewSets to implement API `payment_api_v1/views.py`](../blob/master/payment_api_v1/payment_api_v1/views.py)
-3. [DRF serlializers `payment_api_v1/serializers/`](../blob/master/payment_api_v1/payment_api_v1/serializers/)
-4. [Django signal to process payment `payment_api_v1/signals.py`](../blob/master/payment_api_v1/payment_api_v1/signals.py)
-5. [API test cases `payment_api_v1/tests/api/`](../blob/master/payment_api_v1/payment_api_v1/tests/api/)
+1. [place for celery tasks `payment_api_v1/tasks.py`](blob/master/payment_api_v1/payment_api_v1/tasks.py)
+2. [DRF ViewSets to implement API `payment_api_v1/views.py`](blob/master/payment_api_v1/payment_api_v1/views.py)
+3. [DRF serlializers `payment_api_v1/serializers/`](blob/master/payment_api_v1/payment_api_v1/serializers/)
+4. [Django signal to process payment `payment_api_v1/signals.py`](blob/master/payment_api_v1/payment_api_v1/signals.py)
+5. [API test cases `payment_api_v1/tests/api/`](blob/master/payment_api_v1/payment_api_v1/tests/api/)
 
 How to Run and Use
 ------------------
