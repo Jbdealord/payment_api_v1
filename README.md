@@ -6,6 +6,10 @@ at [Coins.ph](https://coins.ph/)). You could find the full description of the ta
 Please, consider reading of the following parts if you want to know more on how it's working, how to run it locally,
 how to contribute and how to deploy it.
 
+Although it's proven to work system, there's still the big room for improvements. Next steps are described in `TODO`
+section below. Those items should be adjusted as time goes on - having new experience in the domain and this particular
+system.
+
 Architecture
 ------------
 
@@ -20,16 +24,120 @@ experience in this area).
 
 
 
-How to Run
----------
+How to Run and Use
+------------------
+
+### Run
 
 Since all the things are wrapped with Docker - you could quickly start playing around with the system. Let's start from
-the assumption that you've already cloned the repository to some location on your machine.
+the assumption that you've already cloned the repository to some location on your machine. First step will be to build
+all the thing required for Payment (Gateway) API to run:
 
+```bash
+docker-compose up -d --build
+```
 
+At this point you will have all things ready for application to run. And as the next step you might want run the 
+automated test suite to ensure that system works as expected:
+
+```bash
+docker-compose up payment.api.v1.autotests
+```
+
+To run the application, you should use the following command:
+
+```bash
+docker-compose up payment.api.v1
+```
+
+As you can see - all the services follow semantic naming. So it's pretty easy to start hacking around.
+
+### Getting Started
+
+### Development
+
+There're some commonly used flows during development. Let's see some examples.
+
+#### Database Migration
+
+First one is when you're making some changes in `models.py` (change in ORM code) and you want to reflect that change
+in DB migration. So after you've changed the codebase you should generate migration and apply like follows:
+
+```bash
+docker-compose run payment.api.v1 python manage.py makemigrations
+docker-compose up payment.api.v1.migrate
+```
+
+#### TDD
+
+This project was implemented using TDD technique. That means that firstly we're writing a Test Case, describing how
+some feature should operate. Then we're running test suite to ensure that it's failing. This is the good time to commit
+this failing test in your working branch. As next step - you'll iterate (writing the code) to make that feature work
+(proven by passing test suite). When test suite is passing - it's time to commit again.
+
+Let me repeat myself to describe how you should run the automated test suite:
+
+```bash
+docker-compose up payment.api.v1.autotests
+```
+
+It's worth noting that even if you've changed some ORM code - there's no need to create migration before you will ensure
+that feature (or bugfix) is working. Migrations are skipped during test run. So you should remember **to create migration(s)
+and migrate when you have passing test suite**.
+
+#### Celery Tasks
+
+This project has just 1 Celery Task for now - the `process_payment` task, which purpose comes from it's name. But it's
+very likely that we'll need more of them. At this point I would give advice about changes in Celery Tasks (edit existing
+or create a new one). After you've made changes - you also have to restart Celery Worker(s) to let them get new code of
+tasks. You could od that like follows:
+
+```bash
+docker-compose down
+```
+
+and then start all what you need, for example:
+
+```bash
+docker-compose up payment.api.v1
+```
+
+#### Django Shell (+ sample data)
+
+Sometime you'll need to run Django Shell. You could do it like follows:
+
+```bash
+docker-compose run payment.api.v1 python manage.py shell
+```
+
+This is the good way to add some data for testing or development purpose. So you could import models and create some
+instances:
+
+```python
+from payment_api_v1.models import Account, Balance, Payment
+
+account1 = Account.objects.create(email='jerry@example.com')
+account2 = Account.objects.create(email='tom@example.com')
+
+account1_balance_usd = account1.create_balance('USD') 
+account1_balance_php = account1.create_balance('PHP')
+
+account2_balance_php = aacount2.create_balance('PHP')
+
+from djmoney.money import Money
+
+account1_balance_usd.money = Money(1000, 'USD')
+account1_balance_usd.save()
+
+account1_balance_php.money = Money(2000, 'PHP')
+account1_balance_php.save()
+
+payment = Payment.objects.create(balance_from=account2_balance_php, balance_to=account2_balance_php, money=Money(100, 'PHP'))
+```
 
 Contribution
 ------------
+
 
 
 Deployment and Scalability
