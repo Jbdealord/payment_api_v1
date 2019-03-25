@@ -1,3 +1,29 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Payment (Gateway) API v1](#payment-gateway-api-v1)
+  - [Architecture](#architecture)
+    - [Entities](#entities)
+    - [Stack](#stack)
+    - [Useful pointers for places in the code](#useful-pointers-for-places-in-the-code)
+  - [How to Run and Use](#how-to-run-and-use)
+    - [Run](#run)
+    - [Getting Started](#getting-started)
+        - [1. Run the application service](#1-run-the-application-service)
+        - [2. Add sample data](#2-add-sample-data)
+        - [3. Query API](#3-query-api)
+    - [Development](#development)
+      - [Database Migration](#database-migration)
+      - [TDD](#tdd)
+      - [Celery Tasks](#celery-tasks)
+      - [Django Shell (+ sample data)](#django-shell--sample-data)
+  - [Contribution](#contribution)
+  - [Deployment and Scalability](#deployment-and-scalability)
+  - [TODO](#todo)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 Payment (Gateway) API v1
 ========================
 
