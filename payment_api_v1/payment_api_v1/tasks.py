@@ -6,7 +6,13 @@ from payment_api_v1.exceptions import NotEnoughMoneyException, CurrenciesDontMat
 
 
 @shared_task
-def process_payment(payment_id):
+def process_payment(payment_id: int):
+    """
+    Celery task to process payment. All changes are performed in DB tranasction.
+    Transaction is rolled back in case of a problem.
+
+    :param payment_id: id of the `Payment` instance
+    """
 
     from payment_api_v1.models import Payment
 
